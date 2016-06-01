@@ -162,7 +162,7 @@ state    real   hgttrop        ij       dyn_em      1        -     i1  "HGTTROP"
 state    real   pmaxw          ij       dyn_em      1        -     i1  "PMAXW"      "Pressure of the max wind speed"     "Pa"
 state    real   pmaxwnn        ij       dyn_em      1        -     i1  "PMAXWNN"    "PMAXW, nearest neighbor interp"     "Pa"
 state    real   ptrop          ij       dyn_em      1        -     i1  "PTROP"      "Pressure of the tropopause"         "Pa"
-state    real   ptropnn        ij       dyn_em      1        -     i1  "PTROPNN"    "PTROP, nearest neighbor interp      "Pa"
+state    real   ptropnn        ij       dyn_em      1        -     i1  "PTROPNN"    "PTROP, nearest neighbor interp"     "Pa"
 state    real   tmaxw          ij       dyn_em      1        -     i1  "TMAXW"      "Temperature of the max wind speed"  "K"
 state    real   ttrop          ij       dyn_em      1        -     i1  "TTROP"      "Temperature of the tropopause"      "K"
 state    real   umaxw          ij       dyn_em      1        X     i1  "UMAXW"      "U-component of the max wind speed"  "m s-1"
@@ -1451,6 +1451,10 @@ state    real  LWDNBC           ij      misc        1         -      rhdu     "L
 state    real  SWCF             ij      misc        1         -      r        "SWCF"                  "SHORT WAVE CLOUD FORCING AT TOA"                     "W m-2"
 state    real  LWCF             ij      misc        1         -      r        "LWCF"                  "LONG WAVE CLOUD FORCING AT TOA"                      "W m-2"
 state    real  OLR              ij      misc        1         -      rh        "OLR"                   "TOA OUTGOING LONG WAVE"                              "W m-2"
+
+# BAW add for TOA upward SW radiation output from Goddard schemes
+state    real  TOASWUP          ij      misc        1         -      rh        "TOASWUP"                   "TOA OUTGOING SHORT WAVE"                              "W m-2"
+
 
 # these next 2 are for the HFSoLE/PET demo; writing these to auxhist1 output over MCEL for coupling
 # with wave model, only if compiled with -DMCELIO, JM 2003/05/29

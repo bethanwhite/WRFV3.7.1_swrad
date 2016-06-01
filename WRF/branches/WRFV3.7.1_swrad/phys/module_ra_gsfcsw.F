@@ -25,6 +25,7 @@ CONTAINS
                    ,aer_ra_feedback                               &
                    ,f_qv,f_qc,f_qr,f_qi,f_qs,f_qg,f_qndrop        &
                    ,coszen                                        & ! PAJ
+                   ,toaswup                                       & ! BAW add for TOA upward SW output
                    ,ids,ide, jds,jde, kds,kde                     & 
                    ,ims,ime, jms,jme, kms,kme                     &
                    ,its,ite, jts,jte, kts,kte                     ) 
@@ -106,6 +107,9 @@ CONTAINS
 ! ... PAJ ...
 ! 
    REAL, DIMENSION( ims:ime, jms:jme), INTENT(IN) :: COSZEN
+
+! BAW add TOA upward SW output
+   real, dimension( ims:ime, jms:jme),intent(inout) :: TOASWUP
 
 ! LOCAL VARS
  
@@ -812,7 +816,11 @@ CONTAINS
         else
           RSWTOA(i,j) = flx(i,kts) - flxd(i,kts) * SOLCON * cosz(i)
         endif
+        ! BAW add TOA upward SW output
+        TOASWUP(i,j) = RSWTOA(i,j) 
+        ! end BAW edit
       end do
+
 !
 ! ... Absorbed part in surface energy budget
 !
