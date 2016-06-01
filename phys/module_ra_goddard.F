@@ -176,6 +176,7 @@ contains
                    ,swddir,swddni,swddif                          & ! jararias 2013/08
                    ,coszen,julian                                 & ! jararias 2013/08
                    ,aer_opt                                       &
+                   ,toaswup                                       & ! BAW add TOA upward SW output
                                                                   )
    implicit none
 
@@ -274,6 +275,9 @@ contains
          ssaaer3d_sw, & ! 3D single scattering albedo for SW bands
          asyaer3d_sw    ! 3D asymmetry factor for SW bands
    integer, intent(in) :: aer_opt
+
+! BAW add TOA upward SW output
+   real, dimension( ims:ime, jms:jme),intent(inout) :: TOASWUP
 
 !------- Local variables ----------------------------------------------
 
@@ -993,6 +997,7 @@ contains
       do i = its, ite
         if (cosz(i) .le. cosz_min) then
           gsf(i,j) = 0.
+          toaswup(i,j) = 0. ! BAW add TOA upward SW output
           if(present(ERBE_out)) then
              ERBE_out(i,j,5) = 0.   
              ERBE_out(i,j,6) = 0.  
@@ -1005,6 +1010,9 @@ contains
 !
           gsf(i,j) = (1. - rsuvbm(i)) * flxd(i,kte+1) * solcon * cosz(i)
 
+! BAW add TOA upward SW output, following the ERBE calculation:
+          toaswup(i,j) = flxu(i,1)     * solcon * cosz(i)
+! End BAW edit
 !
 ! extra output for SDSU
 !       

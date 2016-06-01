@@ -56,6 +56,7 @@ CONTAINS
               , SLWDN, SLWUP                        & ! goddard schemes
               , TSWDN, TSWUP                        & ! goddard schemes
               , SSWDN, SSWUP                        & ! goddard schemes
+              , TOASWUP                             & ! BAW add for TOA upward SW output from Goddard schemes
               , CLDFRA,CLDFRA_MP_ALL,CLDT,ZNU       &
 #if (EM_CORE == 1)
               , lradius,iradius                     &
@@ -569,6 +570,9 @@ CONTAINS
                                                SLWDN, SLWUP,     &
                                                TSWDN, TSWUP,     &
                                                SSWDN, SSWUP        ! for Goddard schemes
+
+! BAW add for TOA upward SW output from Goddard schemes
+   REAL, DIMENSION(IMS:IME, JMS:JME),INTENT(INOUT) :: TOASWUP
 
 ! Added by ZCX for low and total cloud fraction
    REAL, DIMENSION( kms:kme ), OPTIONAL, INTENT(IN)   :: znu      ! eta values on half (mass)levels
@@ -1239,6 +1243,7 @@ CONTAINS
                     ,f_qi=f_qi,f_qs=f_qs,f_qg=f_qg                     &
                     ,erbe_out=erbe_out                                 & !optional
                     ,aer_opt=aer_opt                                   &
+                    ,toaswup=toaswup                                   & !BAW add  TOA SW upward output to Goddard schemes
                                                                        )
 
         CASE (GFDLLWSCHEME)
@@ -1662,6 +1667,7 @@ CONTAINS
                     ,F_QI=f_qi,F_QS=f_qs,F_QG=f_qg                     &
                     ,F_QNDROP=f_qndrop                                 &
                     ,COSZEN=coszen                                     &
+                    ,toaswup=toaswup                                   & !BAW add  TOA SW upward output to Goddard schemes
                                                                        )
 
         CASE (goddardswscheme)
@@ -1701,6 +1707,7 @@ CONTAINS
                     ,ssaaer3d_sw=ssaaer_sw                             & ! jararias, 2013/11
                     ,asyaer3d_sw=asyaer_sw                             & ! jararias, 2012/11
                     ,aer_opt=aer_opt                                   &
+                    ,toaswup=toaswup                                   & !BAW add  TOA SW upward output to Goddard schemes
                                                                        )
 
         CASE (CAMSWSCHEME)
@@ -2019,6 +2026,17 @@ CONTAINS
         ENDDO
         ENDDO
      ENDIF
+
+! !BAW add TOA SW upward output to Goddard schemes
+    IF ((sw_physics .EQ. GSFCSWSCHEME) .OR. (sw_physics .EQ. goddardswscheme)) THEN
+        DO j=jts,jte
+            DO i=its,ite
+                TOASWUP(i,j) = toaswup(i,j)
+            ENDDO
+        ENDDO
+    ENDIF
+! end BAW edit
+
 
 ! jararias, 14/08/2013
      ! surface direct and diffuse SW fluxes computation. Only for schemes other than RRTMG and Goddard

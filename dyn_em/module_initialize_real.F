@@ -3541,6 +3541,13 @@ endif
 !     CALL wrf_debug ( 0 , '   DONE routine to add snow in high mountain peaks')
 !+---+-----------------------------------------------------------------+
 
+  ! BAW add initialisation of TOA SW radiation output
+  DO J = jts, min(jde-1,jte)
+      DO I = its, min(ide-1,ite)
+          grid%TOASWUP(i,j) = 0.
+      ENDDO
+  ENDDO
+  ! end BAW edit
 
 #ifdef DM_PARALLEL
 #   include "HALO_EM_INIT_1.inc"
