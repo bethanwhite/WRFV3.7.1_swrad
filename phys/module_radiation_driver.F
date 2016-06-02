@@ -1243,7 +1243,6 @@ CONTAINS
                     ,f_qi=f_qi,f_qs=f_qs,f_qg=f_qg                     &
                     ,erbe_out=erbe_out                                 & !optional
                     ,aer_opt=aer_opt                                   &
-                    ,toaswup=toaswup                                   & !BAW add  TOA SW upward output to Goddard schemes
                                                                        )
 
         CASE (GFDLLWSCHEME)
@@ -1707,7 +1706,6 @@ CONTAINS
                     ,ssaaer3d_sw=ssaaer_sw                             & ! jararias, 2013/11
                     ,asyaer3d_sw=asyaer_sw                             & ! jararias, 2012/11
                     ,aer_opt=aer_opt                                   &
-                    ,toaswup=toaswup                                   & !BAW add  TOA SW upward output to Goddard schemes
                                                                        )
 
         CASE (CAMSWSCHEME)
@@ -2028,7 +2026,7 @@ CONTAINS
      ENDIF
 
 ! !BAW add TOA SW upward output to Goddard schemes
-    IF ((sw_physics .EQ. GSFCSWSCHEME) .OR. (sw_physics .EQ. goddardswscheme)) THEN
+    IF (sw_physics .EQ. GSFCSWSCHEME ) THEN
         DO j=jts,jte
             DO i=its,ite
                 TOASWUP(i,j) = toaswup(i,j)
